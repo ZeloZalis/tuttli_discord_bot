@@ -1,13 +1,22 @@
 import discord
 from decouple import config
-from discord.ext import commands
+from discord.ext import commands, tasks
 import random
+from resources import *
+from itertools import cycle
 
 client = commands.Bot(command_prefix = "$", intents = discord.Intents.all())
+
+bot_status = cycle(["Comiendo lechuguita.", "Paseando.", "Haciendo cosas extremas."])
+
+@tasks.loop(minutes=1)
+async def change_status():
+    await client.change_presence(activity=discord.Game(next(bot_status)))
 
 @client.event
 async def on_ready(): #Acción que realizará al conectarse en la consola.
     print("Tuttli connected to Discord succesfully.")
+    change_status.start()
 
 @client.command()
 async def tuttli(ctx): #Comando $tuttli
@@ -21,20 +30,28 @@ async def magic_eightball(ctx):
 @client.command()
 async def ping(ctx):
     bot_latency = round(client.latency*1000)
-    await ctx.send(f"Tu ping es de {bot_latency} ms.")
+    await ctx.send(f"Mi ping es de {bot_latency} ms.")
 
 @client.command()
 async def ehlipin(ctx):
-    await ctx.send("Presenta a tu hermana.\nhttps://www.ntrguadalajara.com/evidimg/2018-02-25_10-02-20___3661.jpg")
-    # await ctx.send("https://www.ntrguadalajara.com/evidimg/2018-02-25_10-02-20___3661.jpg")
+    with open("resources\ehlipin.txt", "r") as file:
+        response_list = file.readlines()
+        response = random.choice(response_list)
+    await ctx.send(f"Presenta a tu hermana.\n{response}")
 
 @client.command()
 async def yoelito(ctx):
-    await ctx.send("https://tenor.com/view/hitam-atau-black-laugh-white-teeth-gif-16766958")
+    with open("resources\yoelito.txt", "r") as file:
+        response_list = file.readlines()
+        response = random.choice(response_list)
+    await ctx.send(response)
 
 @client.command()
 async def urielito(ctx):
-    await ctx.send("https://tenor.com/view/speech-bubble-discord-speech-bubble-midget-midget-speech-bubble-gif-9744429228458603953")
+    with open(r"resources\urielito.txt", "r") as file:
+        response_list = file.readlines()
+        response = random.choice(response_list)
+    await ctx.send(response)
 
 @client.command(aliases = ["ye", "yé"])
 async def yes(ctx):
@@ -48,8 +65,18 @@ async def freddy(ctx):
 async def lui(ctx):
     await ctx.send("https://tenor.com/view/super-saiyan-blue-god-goku-gif-18775110")
 
-@client.command()
+@client.command(aliases=["payo"])
 async def payito(ctx):
-    await ctx.send("https://tenor.com/view/edgehog-microsoft-edge-hedgehog-hedgehogs-love-gif-5716336851784170441")
+    with open("resources\payito.txt", "r") as file:
+        response_list = file.readlines()
+        response = random.choice(response_list)
+    await ctx.send(response)
+
+@client.command(aliases=["valkie", "valkiria"])
+async def valki(ctx):
+    with open("resources\valki.txt", "r") as file:
+        response_list = file.readlines()
+        response = random.choice(response_list)
+    await ctx.send(response)
 
 client.run(config("token"))
