@@ -1,14 +1,16 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import HelpCommand
 import random
 
+client = commands.Bot(command_prefix="$", intents=discord.Intents.all(), help_command=None)
 class Functions(commands.Cog):
     def __init__(self, client):
         self.client = client
     
     @commands.Cog.listener()
     async def on_ready(self):
-        print("Ping.py is ready!")
+        print("Cogs is ready!")
     
     @commands.command()
     async def ehlipin(self, ctx):
@@ -57,5 +59,19 @@ class Functions(commands.Cog):
             response = random.choice(response_list)
         await ctx.send(response)
 
+    @commands.command()
+    async def help(self, ctx):
+        embed_message = discord.Embed(title="Tuttli comandos!", description="A continuación tienes la lista de comandos disponibles de Tuttli:", color=discord.Color.yellow())
+        embed_message.set_author(name=f"Requested by. {ctx.author.name}", icon_url=ctx.author.avatar)
+        # embed_message.set_thumbnail(url="https://tenor.com/view/hedgehog-cute-animals-animal-gif-26682283")
+        # embed_message.set_image(url=ctx.guild.icon)
+
+        embed_message.add_field(name="$payito", value="Muestra un gif de una payito!", inline=False)
+        embed_message.add_field(name="$ye", value="Puto", inline=False)
+        embed_message.add_field(name="$yoelito", value="Muestra un gif de yoelito.", inline=False)
+
+        # embed_message.set_footer(text="This is the footer", icon_url=ctx.author.avatar)
+        await ctx.send(embed=embed_message)
+        
 async def setup(client):
     await client.add_cog(Functions(client))

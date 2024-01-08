@@ -1,13 +1,12 @@
 import discord
 from decouple import config
 from discord.ext import commands, tasks
-import random
 from resources import *
 from itertools import cycle
 import os
 import asyncio
 
-client = commands.Bot(command_prefix = "$", intents = discord.Intents.all())
+client = commands.Bot(command_prefix="$", intents=discord.Intents.all(), help_command=None)
 bot_status = cycle(["Comiendo lechuguita.", "Paseando.", "Haciendo cosas extremas."])
 
 async def load():
