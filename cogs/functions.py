@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import HelpCommand
 import random
 
 client = commands.Bot(command_prefix="$", intents=discord.Intents.all(), help_command=None)
@@ -68,30 +67,11 @@ class Functions(commands.Cog):
         embed_message.add_field(name="$payito, $ehlipin, $yoelito, $urielito, $valki, $luí, $freddy", value="Muestra un gif del respectivo.", inline=False)
         await ctx.send(embed=embed_message)
         
-    # @commands.command() #Comando para borrar X cantidad de mensajes
-    # @commands.has_permissions(manage_messages=True)
-    # async def clear(self, ctx, count: int):
-    #     await ctx.channel.purge(limit=count)
-
-    # @commands.command() #Comando para kickear/banear un miembro, sólo habría que cambiar {kick} por {ban}
-    # @commands.has_permissions(kick_members=True)
-    # async def kick(self, ctx, member: discord.member, *, modreason):
-    #     await ctx.guild.kick(member)
-    #     conf_embed = discord.Embed(title="Exitoso.", color=discord.color.green())
-    #     conf_embed.add_field(name="Kickeado.", value=f"{member.mention} ha sido kickeado por {ctx.author.mention}", inline=False)
-    #     conf_embed.add_field(name="Motivo:", value=modreason, inline=False)
-    #     await ctx.send(embed=conf_embed)
-    
-    # @commands.command(name="unban") #Comando para desbanear.
-    # @commands.guild_only()
-    # @commands.has_permissions(ban_members=True)
-    # async def unban(self, ctx, userID):
-    #     user = discord.Object(id=userID)
-    #     await ctx.guild.unban(user)
-        
-    #     confirmation_embed = discord.Embed(title="Exitoso.", color=discord.color.green())
-    #     confirmation_embed.add_field(name="Desbaneado:", value=f"<@{userID}> ha sido desbaneado del server por {ctx.author.mention}", inline=False)
-    #     await ctx.send(embed=confirmation_embed)
+    @commands.command() #Comando para borrar X cantidad de mensajes
+    @commands.has_permissions(manage_messages=True)
+    async def clear(self, ctx, count: int):
+        await ctx.channel.purge(limit=count+1)
+        await ctx.send(f"{count} mensaje(s) eliminados del chat.")
 
 async def setup(client):
     await client.add_cog(Functions(client))
