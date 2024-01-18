@@ -7,6 +7,7 @@ class Expulse(commands.Cog):
 
     @commands.command() #Comando para kickear.
     @commands.has_permissions(kick_members=True)
+    @commands.has_role("Mod")
     async def kick(self, ctx, member: discord.Member, *, modreason: str):
         await ctx.guild.kick(member)
         conf_embed = discord.Embed(title="A casa platita.", description=f"{member.mention} ha sido papiado por {ctx.author.mention}.", color=discord.Color.green())
@@ -16,6 +17,7 @@ class Expulse(commands.Cog):
     
     @commands.command() #Comando para banear.
     @commands.has_permissions(ban_members=True)
+    @commands.has_role("Shōgun")
     async def ban(self, ctx, member: discord.Member, modreason: str):
         await ctx.guild.ban(member)
 
@@ -27,6 +29,7 @@ class Expulse(commands.Cog):
     @commands.command() #Comando para desbanear.
     @commands.guild_only()
     @commands.has_permissions(ban_members=True)
+    @commands.has_role("Shōgun")
     async def unban(self, ctx, userID):
         user = discord.Object(id=userID)
         await ctx.guild.unban(user)
